@@ -4,6 +4,9 @@ import { compressImage } from '../utils/imageUtils'
 import { createZip } from '../utils/zipUtils'
 
 function ImagePicker() {
+  const [maxImageSize, setMaxImageSize] = useState<number>(1)
+  const [maxWidthOrHeight, setMaxWidthOrHeight] = useState<number>(1920)
+
   const [selectedImages, setSelectedImages] = useState<File[]>([])
   const [thumbnails, setThumbnails] = useState<string[]>([])
   const [progress, setProgress] = useState<number>(0)
@@ -27,7 +30,11 @@ function ImagePicker() {
   }
 
   async function handleSingleImage() {
-    const compressedFile = await compressImage({ file: selectedImages[0] })
+    const compressedFile = await compressImage({
+      file: selectedImages[0],
+      maxSizeMB: maxImageSize,
+      maxWidthOrHeight: maxWidthOrHeight,
+    })
     createDownloadLink(compressedFile, selectedImages[0].name)
   }
 
@@ -38,7 +45,11 @@ function ImagePicker() {
     )
 
     for (const image of selectedImages) {
-      const compressedFile = await compressImage({ file: image })
+      const compressedFile = await compressImage({
+        file: image,
+        maxSizeMB: maxImageSize,
+        maxWidthOrHeight: maxWidthOrHeight,
+      })
       compressedFiles.push(compressedFile)
     }
 
@@ -129,6 +140,31 @@ function ImagePicker() {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
+      <div className="properties-container">
+        <div className="input-row">
+          <label htmlFor="maxImageSize">
+            Max. image size in MegaBytes (Recommended 1mb).
+          </label>
+          <input
+            type="number"
+            id="maxImageSize"
+            value={maxImageSize}
+            onChange={(e) => setMaxImageSize(Number(e.target.value))}
+            placeholder="Max. image size"
+          />
+        </div>
+        <div className="input-row">
+          <label htmlFor="maxImageSize">
+            Max. image width/height in Pixels (Recommended 1920px).
+          </label>
+          <input
+            type="number"
+            value={maxWidthOrHeight}
+            onChange={(e) => setMaxWidthOrHeight(Number(e.target.value))}
+            placeholder="Max. width/height"
+          />
+        </div>
+      </div>
       <label
         htmlFor="imagePicker"
         className={`picker-label ${isDragging ? 'drag-over' : ''}`}
