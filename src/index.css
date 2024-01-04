@@ -42,6 +42,9 @@ button {
   a:hover {
     color: #747bff;
   }
+  .picker-label {
+    color: #ffffff !important;
+  }
   button {
     background-color: #f9f9f9;
   }
