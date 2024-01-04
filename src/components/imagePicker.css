@@ -1,0 +1,43 @@
+.container {
+  margin-top: 20px;
+}
+
+.img-thumbnail {
+  width: 100px;
+  height: 100px;
+  margin-right: 5px;
+  border-radius: 8px;
+}
+
+.progress-container {
+  margin-top: 10px;
+}
+
+.progress-bar-wrapper {
+  border: 1px solid #ccc;
+  width: 200px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: '10px';
+  background-color: #4caf50;
+  border-radius: 5px;
+}
+
+.progress-counter {
+  margin-top: 5px;
+}
+
+.thumbnail-container {
+  width: 100%;
+  background-color: #181818;
+  margin-top: 20px;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.btn-submit {
+  margin-top: 20px;
+}
