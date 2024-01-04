@@ -21,7 +21,9 @@ function ImagePicker() {
         await handleSingleImage()
       }
 
-      await handleMultipleImages()
+      if (selectedImages.length > 1) {
+        await handleMultipleImages()
+      }
     } catch (error) {
       console.log(error)
     } finally {
