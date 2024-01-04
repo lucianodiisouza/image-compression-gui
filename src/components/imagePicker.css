@@ -1,5 +1,12 @@
 .container {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.drag-over {
+  border: 2px dashed #007bff;
 }
 
 .img-thumbnail {
@@ -9,8 +16,24 @@
   border-radius: 8px;
 }
 
+.picker-label {
+  background-color: #3b3b3b;
+  padding: 20px 10px;
+  border-radius: 8px;
+  display: block;
+  text-align: center;
+  border: 2px dashed #545454;
+  width: 100%;
+  cursor: pointer;
+}
+
+.picker-label:hover {
+  background-color: #292929;
+}
+
 .progress-container {
   margin-top: 10px;
+  width: 100%;
 }
 
 .progress-bar-wrapper {
@@ -40,4 +63,15 @@
 
 .btn-submit {
   margin-top: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btn-submit:hover {
+  background-color: #065db9;
+}
+
+.btn-submit:disabled {
+  background-color: #3b3b3b;
+  cursor: not-allowed;
 }

@@ -1,6 +1,5 @@
-import { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import './imagePicker.css'
-
 import { compressImage } from '../utils/imageUtils'
 import { createZip } from '../utils/zipUtils'
 
@@ -9,6 +8,7 @@ function ImagePicker() {
   const [thumbnails, setThumbnails] = useState<string[]>([])
   const [progress, setProgress] = useState<number>(0)
   const [isConverting, setIsConverting] = useState<boolean>(false)
+  const [isDragging, setIsDragging] = useState<boolean>(false)
 
   async function handleImageCompression() {
     try {
@@ -52,8 +52,11 @@ function ImagePicker() {
 
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     const files = event.target.files as FileList
-    const imagesArray: File[] = Array.from(files)
+    handleFiles(files)
+  }
 
+  function handleFiles(files: FileList) {
+    const imagesArray: File[] = Array.from(files)
     setSelectedImages(imagesArray)
 
     const thumbnailsArray: string[] = []
@@ -84,13 +87,50 @@ function ImagePicker() {
     setThumbnails([])
   }
 
+  function handleDragEnter(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  function handleDragLeave(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    setIsDragging(false)
+
+    const files = e.dataTransfer.files
+    handleFiles(files)
+  }
+
   return (
-    <div className="container">
+    <div
+      className="container"
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      <label
+        htmlFor="imagePicker"
+        className={`picker-label ${isDragging ? 'drag-over' : ''}`}
+      >
+        Click to pick your images or drop then here
+      </label>
       <input
         type="file"
         accept="image/*"
         onChange={(e) => handleImageChange(e)}
         multiple
+        style={{ display: 'none' }}
+        id="imagePicker"
       />
 
       {thumbnails.length > 0 && (
