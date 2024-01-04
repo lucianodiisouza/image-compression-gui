@@ -110,6 +110,17 @@ function ImagePicker() {
     handleFiles(files)
   }
 
+  function handleRemoveImage(index: number) {
+    const updatedImages = [...selectedImages]
+    const updatedThumbnails = [...thumbnails]
+
+    updatedImages.splice(index, 1)
+    updatedThumbnails.splice(index, 1)
+
+    setSelectedImages(updatedImages)
+    setThumbnails(updatedThumbnails)
+  }
+
   return (
     <div
       className="container"
@@ -122,7 +133,7 @@ function ImagePicker() {
         htmlFor="imagePicker"
         className={`picker-label ${isDragging ? 'drag-over' : ''}`}
       >
-        Click to pick your images or drop then here
+        Click to pick your images or drop them here
       </label>
       <input
         type="file"
@@ -136,12 +147,20 @@ function ImagePicker() {
       {thumbnails.length > 0 && (
         <div className="thumbnail-container">
           {thumbnails.map((thumbnail, index) => (
-            <img
-              key={index}
-              src={thumbnail}
-              alt={`thumbnail-${index}`}
-              className="img-thumbnail"
-            />
+            <div key={index} className="thumbnail-item">
+              <img
+                src={thumbnail}
+                alt={`thumbnail-${index}`}
+                className="img-thumbnail"
+              />
+              <button
+                onClick={() => handleRemoveImage(index)}
+                className="remove-button"
+                title="Delete item"
+              >
+                &#x2716; {/* Unicode character for 'X' */}
+              </button>
+            </div>
           ))}
         </div>
       )}
